@@ -1,4 +1,4 @@
-# Threat Hunt Report: Accidental Exposure of Assets to the Internet
+# Threat Hunt Report: Insider Threat and Data Exfiltration Investigation
 
 <img width="1540" height="1028" alt="TH2_1E_bordered" src="https://github.com/user-attachments/assets/c8935c1f-3220-46d7-a94d-d4a966444260" />
 
