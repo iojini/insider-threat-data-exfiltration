@@ -1,6 +1,6 @@
 # Threat Hunt Report: Insider Threat and Data Exfiltration Investigation
 
-<img width="1540" height="1028" alt="TH2_1E_bordered" src="https://github.com/user-attachments/assets/c8935c1f-3220-46d7-a94d-d4a966444260" />
+<img width="2052" height="1533" alt="ITDEv2_bordered" src="https://github.com/user-attachments/assets/235e4bd8-6402-44a4-9954-6560f4f47371" />
 
 ##  Scenario
 
