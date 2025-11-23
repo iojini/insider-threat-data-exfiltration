@@ -1,4 +1,4 @@
-# Threat Event (Sudden Network Slowdowns)
+# Threat Event (Data Exfiltration from Disgruntled Employee)
 **Lateral Reconnaissance via Port Scanning**
 
 ## Steps the "Bad Actor" took Create Logs and IoCs:
