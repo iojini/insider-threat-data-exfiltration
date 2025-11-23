@@ -4,7 +4,7 @@
 
 ##  Scenario
 
-An employee named John Doe is currently working in a sensitive department and has recently been placed on a performance improvement plan (PIP). After this decision, John has reportedly reacted with concerning behavior and management now believes that John may be considering the theft of proprietary information before quitting and leaving the company. This investigation aims to analyze activities on John's corporate device to ensure that no suspicious actions are taking place.
+An employee named John Doe is currently working in a sensitive department and has recently been placed on a performance improvement plan (PIP). After this decision, John has reportedly reacted with concerning behavior and management now believes that John may be considering the theft of proprietary information before quitting and leaving the company. Since John is an administrator on his device, there are no limits to the applications he can use. Therefore, he may try to archive or compress sensitive information and send it to a private drive. This investigation aims to analyze activities on John's corporate device to ensure that no suspicious actions are taking place.
 
 - [Scenario Creation](https://github.com/iojini/insider-threat-data-exfiltration/blob/main/insider-threat-data-exfiltration-event-creation.md)
 
