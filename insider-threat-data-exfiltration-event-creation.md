@@ -1,11 +1,11 @@
 # Threat Event (Data Exfiltration from Disgruntled Employee)
-**Lateral Reconnaissance via Port Scanning**
+**Archival Activity via Silent 7-Zip Execution**
 
 ## Steps the "Bad Actor" took Create Logs and IoCs:
 1. Provision a Windows VM and confirm the VM is reachable externally (e.g., ping)
 2. Onboard the VM to Microsoft Defender for Endpoint (MDE)
-3. Run the following PowerShell command on the onboarded VM to simulate lateral reconnaissance and port scanning:<br>
-    [Port Scan Simulation Script](https://github.com/iojini/sudden-network-slowdowns/blob/main/scripts/portscan.ps1)
+3. Run the following PowerShell script on the onboarded VM to simulate a data exfiltration attempt by an insider threat:<br>
+    [Data Exfiltration Simulation Script](https://github.com/iojini/insider-threat-data-exfiltration/blob/main/scripts/exfiltratedata.ps1)
 
 ---
 
