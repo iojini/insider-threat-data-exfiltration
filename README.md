@@ -10,7 +10,7 @@ An employee named John Doe is currently working in a sensitive department and ha
 
 ## Platforms and Languages Leveraged
 - Windows 10 Virtual Machines (Microsoft Azure)
-- EDR Platform: Microsoft Defender for Endpoint
+- Log Repository: Azure Log Analytics
 - Kusto Query Language (KQL)
 
 ---
