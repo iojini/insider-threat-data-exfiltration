@@ -19,7 +19,7 @@ An employee named John Doe is currently working in a sensitive department and ha
 
 ### 1. Searched the `DeviceFileEvents` table for archiving activity
 
-Searched the DeviceFileEvents table and discovered archiving activity on the target device ("irene-test-vm-m").
+Searched the DeviceFileEvents table and discovered archiving activity on the target device.
 
 **Query used to locate events:**
 
@@ -36,7 +36,7 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` table for suspicious activity before and after archive creation
 
-Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7zip on the device. Furthermore, 7zip was used to zip up employee data into an archive.
+Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7-zip on the device. Furthermore, 7zip was used to zip up employee data into an archive.
 
 **Query used to locate events:**
 
