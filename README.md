@@ -98,13 +98,13 @@ This table organizes the MITRE ATT&CK techniques (TTPs) observed during the inve
 
 | MITRE Mitigation ID | Name | Action Taken | Description | Relevance |
 |---------------------|------|--------------|-------------|-----------|
-| M1030 | Network Segmentation | Network Security Group Hardening | Reconfigured the NSG attached to 'irene-test-vm-m' to restrict RDP access to authorized IP addresses only, eliminating public internet exposure. | Prevents unauthorized external access by limiting remote access to trusted sources only. |
-| M1036 | Account Use Policies | Account Lockout Policy Implementation | Implemented account lockout thresholds to automatically lock accounts after a specified number of failed login attempts. | Mitigates brute-force attack risks by preventing unlimited password guessing attempts. |
-| M1032 | Multi-factor Authentication | Multi-Factor Authentication Deployment | Deployed MFA for all network logon types, requiring additional authentication factors beyond passwords. | Adds an additional security layer to prevent unauthorized access even if credentials are compromised. |
-| M1047 | Audit | Continuous Monitoring Configuration | Established ongoing monitoring of DeviceInfo and DeviceLogonEvents tables for configuration changes and suspicious login activity. | Enables early detection of future misconfigurations or unauthorized access attempts. |
+| M1057 | Data Loss Prevention | DLP Policy Implementation | Implemented DLP policies to detect and block bulk transfers of sensitive files (e.g., employee data) to external cloud storage endpoints. | Prevents exfiltration of sensitive data by monitoring and restricting unauthorized transfers to external destinations. |
+| M1037 | Filter Network Traffic | Egress Filtering Configuration | Configured firewall rules to restrict outbound connections to unapproved cloud storage services and require inspection of HTTPS traffic. | Limits exfiltration channels by blocking unauthorized cloud storage endpoints and enabling visibility into encrypted traffic. |
+| M1038 | Execution Prevention | Application Whitelisting | Implemented application control policies to prevent unauthorized software installation (e.g., 7-Zip) and restrict PowerShell execution to approved scripts. | Mitigates unauthorized tool installation and script execution by enforcing a list of approved applications. |
+| M1047 | Audit | Continuous Monitoring Configuration | Established ongoing monitoring of DeviceFileEvents, DeviceProcessEvents, and DeviceNetworkEvents tables for archive creation, suspicious script execution, and connections to cloud storage endpoints. | Enables early detection of future data staging and exfiltration attempts. |
 
 ---
 
-The following response actions were taken: reconfigured the NSG attached to the target machine to restrict RDP access to authorized endpoints only, removing public internet exposure; implemented account lockout thresholds to prevent brute-force attacks by automatically locking accounts after excessive failed login attempts; deployed MFA for network authentication to provide additional security beyond password-based access; established ongoing monitoring for configuration changes and suspicious login activity.
+The following response actions were taken: implemented DLP policies to detect and block unauthorized transfers of sensitive data to external cloud storage; configured egress filtering to restrict outbound connections to unapproved cloud storage services; deployed application whitelisting to prevent unauthorized software installation and restrict PowerShell script execution; established ongoing monitoring for archive creation, suspicious process execution, and network connections to cloud storage endpoints.
 
 ---
