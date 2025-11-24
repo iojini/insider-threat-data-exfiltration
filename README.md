@@ -75,27 +75,22 @@ DeviceNetworkEvents
 
 ## Summary
 
-The analysis revealed that the target device was internet-facing for several days, with the most recent occurrence on October 16, 2025. During this exposure period, multiple threat actors attempted to gain unauthorized access to the device. Analysis of failed logon attempts identified numerous external IP addresses conducting brute-force attacks, with some IPs attempting to log in over 90 times (e.g., 185.39.19.56 with 100 failed attempts, 45.227.254.130 with 93 failed attempts).
-
-Critically, none of the identified threat actor IP addresses successfully gained access to the system. Further investigation revealed that the only successful network logons during the last 30 days were associated with the 'labuser' account (53 total). Notably, there were zero failed logon attempts for this account, and the successful logons originated from an IP address consistent with expected and legitimate sources. In summary, no indicators of compromise (IOC) were found.
+The investigation revealed that a malicious PowerShell script (i.e., exfiltratedata.ps1) was executed on the target device with -ExecutionPolicy Bypass to evade security controls. The script performed three actions in sequence: it silently installed 7-Zip, used 7-Zip to compress employee data into an archive (i.e., employee-data-20251002004431.zip), and uploaded the archive to an external Azure Blob Storage account (i.e., sacyberrangedanger.blob.core.windows.net) over HTTPS. The entire operation was completed in approximately 10 seconds. The use of encrypted traffic over a standard port indicates an attempt to evade network-based detection by blending malicious activity with legitimate cloud service traffic, and confirms successful data exfiltration of employee information to an external storage account.
 
 ---
 
 ## Relevant MITRE ATT&CK TTPs
 
-| TTP ID | TTP Name | Description | Detection Relevance |
-|--------|----------|-------------|---------------------|
-| T1133 | External Remote Services | Internet-facing VM inadvertently exposed to the public internet, allowing external access attempts. | Identifies misconfigured devices exposed to the internet through DeviceInfo table queries. |
-| T1046 | Network Service Discovery | External threat actors discovered and identified the exposed service before attempting access. | Indicates potential reconnaissance and scanning by external actors prior to brute-force attempts. |
-| T1110 | Brute Force | Multiple failed login attempts from external IP addresses attempting to gain unauthorized access (e.g., 185.39.19.56 with 100 attempts). | Identifies brute-force login attempts and suspicious login behavior from multiple remote IPs. |
-| T1075 | Pass the Hash | Failed login attempts could suggest credential-based attacks including pass-the-hash techniques. | Identifies failed login attempts from external sources, indicative of credential attacks. |
-| T1021 | Remote Services | Remote network logons via legitimate services showing external interaction attempts with the exposed device. | Identifies legitimate and malicious remote service logons to the exposed device. |
-| T1070 | Indicator Removal on Host | No indicators of successful brute-force attacks, demonstrating that defensive measures prevented unauthorized access. | Confirms the lack of successful attacks due to effective monitoring and legitimate account usage. |
-| T1078 | Valid Accounts | Successful logons from the legitimate account 'labuser' were normal and monitored, representing valid credential usage. | Monitors legitimate access and excludes unauthorized access attempts by confirming expected IP sources. |
+| Tactic | TTP Name | TTP ID | Description | Detection Relevance |
+|--------|----------|:--------:|-------------|---------------------|
+| Execution | Command and Scripting Interpreter: PowerShell | T1059.001 | A PowerShell script (exfiltratedata.ps1) was executed with -ExecutionPolicy Bypass to install 7-Zip, compress employee data, and upload the archive to Azure Blob Storage. | Identifies suspicious PowerShell execution through DeviceProcessEvents table, including command line arguments. |
+| Defense Evasion | Obfuscated Files or Information | T1027 | The script was placed in C:\ProgramData, a common location used to blend in with legitimate software, and the archive was named with a timestamp to appear routine. | Identifies potentially malicious files stored in commonly abused directories. |
+| Collection | Archive Collected Data | T1560 | 7-Zip was silently installed and used to compress employee data into a .zip archive (employee-data-20251002004431.zip) for exfiltration. | Identifies archiving activity through DeviceFileEvents and DeviceProcessEvents tables. |
+| Exfiltration | Exfiltration Over Web Service: Exfiltration to Cloud Storage | T1567.002 | The compressed archive was uploaded to an external Azure Blob Storage account (sacyberrangedanger.blob.core.windows.net) over HTTPS (port 443). | Identifies outbound connections to cloud storage endpoints through DeviceNetworkEvents table. |
 
 ---
 
-This table organizes the MITRE ATT&CK techniques (TTPs) observed during the investigation. The detection methods identified both the attack attempts (brute force from external IPs) and confirmed that no unauthorized access occurred, with all successful logons representing legitimate user activity.
+This table organizes the MITRE ATT&CK techniques (TTPs) observed during the investigation. The detection methods identified the full attack chain (i.e., script execution, data archiving, and exfiltration over encrypted cloud storage), thereby confirming successful data exfiltration of employee information to an external Azure Blob Storage account.
 
 ---
 
