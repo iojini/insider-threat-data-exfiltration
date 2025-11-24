@@ -14,18 +14,18 @@
 |---------------------|------------------------------------------------------------------------------|
 | **Name**| DeviceFileEvents|
 | **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefileevents-table|
-| **Purpose**| Used to detect TOR download and list creation.|
+| **Purpose**| Used to detect archive creation on the target device.|
 
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
 | **Name**| DeviceProcessEvents|
 | **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table|
-| **Purpose**| Used to detect the silent installation and launching of TOR.|
+| **Purpose**| Used to detect the silent installation of 7-Zip and the compression of employee data.|
 
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
 | **Name**| DeviceNetworkEvents|
 | **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table|
-| **Purpose**| Used to detect connections to known TOR ports (e.g, 9001, 9030, 9040, 9050, 9051, 9150) and sites over ports 80 and 443.|
+| **Purpose**| Used to detect outbound connections to Azure Blob Storage over HTTPS (port 443).|
 
 ---
