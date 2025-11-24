@@ -48,7 +48,7 @@ DeviceProcessEvents
 | where TimeGenerated between ((specificTime - 1m) .. (specificTime + 1m))
 | where DeviceName == VMName
 | order by TimeGenerated desc
-| project TimeGenerated, DeviceName, ActionType, FileName, ProcessCommandLine
+| project TimeGenerated, DeviceName, FileName, ProcessCommandLine
 ```
 <img width="1943" height="648" alt="TH3_2v2" src="https://github.com/user-attachments/assets/0bd2a012-bd0d-4fd1-8a9a-659c0ca5a70f" />
 
