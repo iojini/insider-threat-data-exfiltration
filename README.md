@@ -17,38 +17,40 @@ An employee named John Doe is currently working in a sensitive department and ha
 
 ## Steps Taken
 
-### 1. Searched the `DeviceInfo` table to identify internet-facing instances of the device
+### 1. Searched the `DeviceFileEvents` table for archiving activity
 
-Searched the DeviceInfo table and discovered that the device ("irene-test-vm-m") was internet-facing for several days, with the most recent occurrence at 2025-10-16T17:36:02.4227451Z.
+Searched the DeviceFileEvents table and discovered archiving activity on the target device ("irene-test-vm-m").
 
 **Query used to locate events:**
 
 ```kql
-DeviceInfo
+DeviceFileEvents
 | where DeviceName == "irene-test-vm-m"
-| where IsInternetFacing == true
-| order by Timestamp desc
+| where FileName endswith ".zip"
+| order by TimeGenerated asc
+| project TimeGenerated, DeviceName, ActionType, FileName
 ```
-<img width="3292" height="1436" alt="IF1" src="https://github.com/user-attachments/assets/c84a74ea-4f85-4f59-a6d0-99dd2217f316" />
+<img width="1938" height="739" alt="TH3_1" src="https://github.com/user-attachments/assets/75c0f7a9-3173-4ff0-b997-2722decc008a" />
 
 ---
 
-### 2. Searched the `DeviceLogonEvents` table to identify remote IP addresses with failed logon attempts
+### 2. Searched the `DeviceProcessEvents` table for suspicious activity before and after archive creation
 
-Based on the logs returned, several threat actors have been discovered attempting to log in to the target machine. Multiple failed logon attempts were identified from various remote IPs, with the results grouped and ordered by the number of attempts from each IP address. For example, 185.39.19.56 failed to log in to the target machine 100 times and 45.227.254.130 failed to log in to the target machine 93 times.
+Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7zip on the device. Furthermore, 7zip was used to zip up employee data into an archive.
 
 **Query used to locate events:**
 
 ```kql
-DeviceLogonEvents
-| where DeviceName == "irene-test-vm-m"
-| where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
-| where ActionType == "LogonFailed"
-| where isnotempty(RemoteIP)
-| summarize Attempts = count() by ActionType, RemoteIP, DeviceName
-| order by Attempts
+// 2025-10-02T00:44:40.1965293Z
+let VMName = "irene-test-vm-m";
+let specificTime = datetime(2025-10-02T00:44:40.1965293Z);
+DeviceProcessEvents
+| where TimeGenerated between ((specificTime - 1m) .. (specificTime + 1m))
+| where DeviceName == VMName
+| order by TimeGenerated desc
+| project TimeGenerated, DeviceName, ActionType, FileName, ProcessCommandLine
 ```
-<img width="2809" height="1524" alt="IF2_2" src="https://github.com/user-attachments/assets/d93ecb1b-223b-4238-a141-de06a9a28ac1" />
+<img width="1943" height="648" alt="TH3_2v2" src="https://github.com/user-attachments/assets/0bd2a012-bd0d-4fd1-8a9a-659c0ca5a70f" />
 
 ---
 
