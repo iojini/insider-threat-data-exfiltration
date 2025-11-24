@@ -36,7 +36,7 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` table for suspicious activity before and after archive creation
 
-Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7-zip on the device. Furthermore, 7zip was used to zip up employee data into an archive.
+Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7-zip on the device. Furthermore, 7-zip was used to zip up employee data into an archive.
 
 **Query used to locate events:**
 
@@ -54,9 +54,9 @@ DeviceProcessEvents
 
 ---
 
-### 3. Searched the `DeviceLogonEvents` table for successful logons from suspicious IP addresses
+### 3. Searched the `DeviceNetworkEvents` table for network activity indicative of exfiltration
 
-Searched for any indication of successful logons from the IP addresses with the most failed login attempts. Based on the logs returned, no successful logons were identified from these IP addresses.
+Searched for any indication of successful exfiltration from the network. Based on the logs returned, there was no evidence that data exfiltration occurred during the timeframe investigated.
 
 **Query used to locate events:**
 
