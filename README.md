@@ -19,7 +19,7 @@ An employee named John Doe is currently working in a sensitive department and ha
 
 ### 1. Searched the `DeviceFileEvents` table for archiving activity
 
-Searched the DeviceFileEvents table and discovered archiving activity on the target device.
+Searched the DeviceFileEvents table and discovered archiving activity on the target device (i.e., employee-data-20251002004431.zip was created at 12:44:40.196 AM).
 
 **Query used to locate events:**
 
@@ -36,7 +36,7 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` table for suspicious activity before and after archive creation
 
-Searched the DeviceProcessEvents table for activities occuring one minute before and after the archive was created and discovered that a powershell script silently installed 7-zip on the device. Furthermore, 7-zip was used to zip up employee data into an archive.
+Searched the DeviceProcessEvents table for activities occuring one minute before and one minute after the archive was created and discovered that a powershell script silently installed 7-zip on the device at 12:44:32.908 AM. Furthermore, 7-zip was used to compress employee data at 12:44:40.145 AM.
 
 **Query used to locate events:**
 
@@ -48,83 +48,28 @@ DeviceProcessEvents
 | where TimeGenerated between ((specificTime - 1m) .. (specificTime + 1m))
 | where DeviceName == VMName
 | order by TimeGenerated desc
-| project TimeGenerated, DeviceName, FileName, ProcessCommandLine
+| project TimeGenerated, FileName, ProcessCommandLine
 ```
-<img width="1943" height="648" alt="TH3_2v2" src="https://github.com/user-attachments/assets/0bd2a012-bd0d-4fd1-8a9a-659c0ca5a70f" />
+<img width="1980" height="640" alt="TH3_2v3" src="https://github.com/user-attachments/assets/f5f8e619-eb3f-480c-b34c-d91f955f8cbe" />
 
 ---
 
 ### 3. Searched the `DeviceNetworkEvents` table for network activity indicative of exfiltration
 
-Searched for any indication of successful exfiltration from the network and discovered 
+Searched for any indication of successful exfiltration from the network and discovered outbound connections to Azure Blob Storage. PowerShell connected to sacyberrangedanger.blob.core.windows.net at 12:44:40.285 AM.
 
 **Query used to locate events:**
 
 ```kql
-let RemoteIPsInQuestion = dynamic(["185.39.19.56","45.227.254.130", "185.243.96.107", "182.160.114.213", "188.253.1.20"]);
-DeviceLogonEvents
-| where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
-| where ActionType == "LogonSuccess"
-| where RemoteIP has_any(RemoteIPsInQuestion)
+let VMName = "irene-test-vm-m";
+let specificTime = datetime(2025-10-02T00:44:40.1965293Z);
+DeviceNetworkEvents
+| where TimeGenerated between ((specificTime - 4m) .. (specificTime + 4m))
+| where DeviceName == VMName
+| order by TimeGenerated desc
+| project TimeGenerated, RemoteUrl, RemoteIP, RemotePort, InitiatingProcessFileName
 ```
----
-
-### 4. Searched the `DeviceLogonEvents` table for successful network logons
-
-The only successful remote network logons in the last 30 days was for the labuser account (53 total).
-
-**Query used to locate events:**
-
-```kql
-//Successful logons
-DeviceLogonEvents
-| where DeviceName == "irene-test-vm-m"
-| where LogonType == "Network"
-| where ActionType == "LogonSuccess"
-
-//Number of successful logons by account owner
-DeviceLogonEvents
-| where DeviceName == "irene-test-vm-m"
-| where LogonType == "Network"
-| where ActionType == "LogonSuccess"
-| where AccountName == "labuser"
-| summarize count()
-```
----
-
-### 5. Searched the `DeviceLogonEvents` table for failed network logon attempts by account owner
-
-There were zero (0) failed logons for the ‘labuser’ account, indicating that a brute force attempt for this account didn’t take place, and a 1-time password guess is unlikely (i.e., this likely represents legitimate activity by the actual user; however, can't rule out that an attacker may already know the username and password obtained through other means including phishing, credential dumps, password reuse, etc).
-
-**Query used to locate events:**
-
-```kql
-DeviceLogonEvents
-| where DeviceName == "irene-test-vm-m"
-| where LogonType == "Network"
-| where ActionType == "LogonFailed"
-| where AccountName == "labuser"
-| summarize count()
-
-```
----
-
-### 6. Searched the `DeviceLogonEvents` table to identify successful network logons by the account owner and the source of the logon activity 
-
-Searched for remote IP addresses that successfully logged in as 'labuser' to assess whether the activity originated from unusual or unexpected locations. Based on the results, the IP address was consistent with expected/legitimate sources.
-
-
-**Query used to locate events:**
-
-```kql
-DeviceLogonEvents
-| where DeviceName == "irene-test-vm-m"
-| where LogonType == "Network"
-| where ActionType == "LogonSuccess"
-| where AccountName == "labuser"
-| summarize LoginCount = count() by DeviceName, ActionType, AccountName, RemoteIP
-```
-<img width="2848" height="453" alt="IF_3" src="https://github.com/user-attachments/assets/516575b1-d820-4c1a-9389-9d4a00543a5a" />
+<img width="1916" height="931" alt="TH3_3" src="https://github.com/user-attachments/assets/c6f7f817-4a4d-404f-98c8-e8136e31c31d" />
 
 ---
 
