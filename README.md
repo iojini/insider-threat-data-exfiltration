@@ -105,6 +105,6 @@ This table organizes the MITRE ATT&CK techniques (TTPs) observed during the inve
 
 ---
 
-The following response actions were taken: implemented DLP policies to detect and block unauthorized transfers of sensitive data to external cloud storage; configured egress filtering to restrict outbound connections to unapproved cloud storage services; deployed application whitelisting to prevent unauthorized software installation and restrict PowerShell script execution; established ongoing monitoring for archive creation, suspicious process execution, and network connections to cloud storage endpoints.
+The following response actions were taken: immediately isolated the affected device upon discovery of the exfiltration activity to prevent further data loss; implemented DLP policies to detect and block unauthorized transfers of sensitive data to external cloud storage; configured egress filtering to restrict outbound connections to unapproved cloud storage services; deployed application whitelisting to prevent unauthorized software installation and restrict PowerShell script execution; established ongoing monitoring for archive creation, suspicious process execution, and network connections to cloud storage endpoints.
 
 ---
