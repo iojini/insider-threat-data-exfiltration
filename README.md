@@ -56,7 +56,7 @@ DeviceProcessEvents
 
 ### 3. Searched the `DeviceNetworkEvents` table for network activity indicative of exfiltration
 
-Searched for any indication of successful exfiltration from the network. Based on the logs returned, there was no evidence that data exfiltration occurred during the timeframe investigated.
+Searched for any indication of successful exfiltration from the network and discovered 
 
 **Query used to locate events:**
 
